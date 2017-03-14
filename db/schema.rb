@@ -10,7 +10,25 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170314115723) do
+ActiveRecord::Schema.define(version: 20170314140105) do
+
+  create_table "invoice_details", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.float    "price",      limit: 24
+    t.integer  "amount"
+    t.integer  "item_id"
+    t.integer  "invoice_id"
+    t.datetime "created_at",            null: false
+    t.datetime "updated_at",            null: false
+    t.index ["invoice_id"], name: "index_invoice_details_on_invoice_id", using: :btree
+    t.index ["item_id"], name: "index_invoice_details_on_item_id", using: :btree
+  end
+
+  create_table "invoices", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.float    "total",      limit: 24
+    t.boolean  "delivered"
+    t.datetime "created_at",            null: false
+    t.datetime "updated_at",            null: false
+  end
 
   create_table "items", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "name"
@@ -31,5 +49,7 @@ ActiveRecord::Schema.define(version: 20170314115723) do
     t.index ["item_id"], name: "index_purchases_on_item_id", using: :btree
   end
 
+  add_foreign_key "invoice_details", "invoices"
+  add_foreign_key "invoice_details", "items"
   add_foreign_key "purchases", "items"
 end

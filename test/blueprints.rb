@@ -14,3 +14,15 @@ Item.blueprint do
   eastsun_id { Faker::Number.number(10) }
   price { 10 }
 end
+
+Invoice.blueprint do
+  total { 0 }
+  delivered { false }
+end
+
+InvoiceDetail.blueprint do
+  invoice { Invoice.make! }
+  item { Item.make! }
+  amount { 10 }
+  price { 5 }
+end
