@@ -167,9 +167,4 @@ SimpleForm.setup do |config|
 
   # Defines which i18n scope will be used in Simple Form.
   # config.i18n_scope = 'simple_form'
-
-  SimpleForm.form_class = nil
-  SimpleForm.wrapper_class = 'clearfix'
-  SimpleForm.wrapper_error_class = 'error'
-  SimpleForm.error_class = 'help-inline'
 end
