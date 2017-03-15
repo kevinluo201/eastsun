@@ -1,12 +1,72 @@
-<%= simple_form_for(@invoice) do |f| %>
-  <%= f.error_notification %>
-
-  <div class="form-inputs">
-    <%= f.input :total %>
-    <%= f.input :delivered %>
-  </div>
-
-  <div class="form-actions">
-    <%= f.button :submit %>
-  </div>
+<h3>商品</h3>
+<%= bootstrap_form_tag url: @form_option[:url], method: @form_option[:method] do |f| %>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>品項</th>
+        <th>單價</th>
+        <th>數量</th>
+        <th>總價</th>
+      </tr>
+    <thead>
+    <tbody>
+      <% @items.each do |item| %>
+        <tr id="<%= item.id %>">
+          <td><%= item.name %></td>
+          <td><%= item.price %></td>
+          <td class="amount"><%= f.number_field "amount_#{item.id}",  hide_label: true %></td>
+          <td class="detail_total" id="total_<%= item.id%>">0</td>
+        </tr>
+      <% end %>
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td id="total"><b>$ 0</b></td>
+        </tr>
+    </tbody>
+  </table>
+  <%= f.submit %>
 <% end %>
+
+<script>
+  function calculateTotal(){
+    $total = 0;
+    $.each($(".detail_total"), function(index, value){
+      $total += Number($(value).text());
+    });
+    $("#total").html("<b>$ " + $total + "</b>");
+  }
+
+  $( ".amount" ).change(function() {
+    $price = Number($(this).prev().text());
+    $amount = Number($(this).children().children().last().val());
+    $(this).next().html($price * $amount);
+
+    calculateTotal();
+
+    if($amount > 0){
+      $(this).parent().css("background-color", "#87CEFA");
+    }else{
+      $(this).parent().css("background-color", "white");
+    }
+  });
+
+  $( document ).ready(function() {
+      $.get("/invoice_details/<%= @invoice.id %>.json", function(data, status){
+        // alert("Data: " + data + "\nStatus: " + status);
+        $.each(data,function(index, value){
+          $id = value.item_id;
+          if(value.amount > 0){
+            $('#amount_' + $id).val(value.amount);
+            $('#amount_' + $id).parent().parent().parent().css("background-color", "#87CEFA");
+            $('#total_' + $id).text(value.amount * value.price);
+            $('#amount_' + $id).parent().parent().prev().text(value.price);
+          }
+        });
+
+        calculateTotal();
+      });
+
+  });
+</script>

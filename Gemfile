@@ -39,6 +39,7 @@ gem 'record_tag_helper', '~> 1.0'
 gem 'simple_form'
 gem 'bootstrap-sass', '~> 3.3.6'
 gem 'bootstrap-generators', '~> 3.3.4'
+gem 'bootstrap_form'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

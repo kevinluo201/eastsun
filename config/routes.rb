@@ -2,5 +2,6 @@ Rails.application.routes.draw do
   resources :invoices
   resources :purchases
   resources :items
-  # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
+
+  get '/invoice_details/:id', to: 'invoices#details_json'
 end
