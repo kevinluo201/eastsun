@@ -33,7 +33,11 @@ class InvoicesController < ApplicationController
   # POST /invoices.json
   def create
     ActiveRecord::Base.transaction do
-      @invoice = Invoice.create!
+      @invoice = Invoice.new invoice_params
+      customer = Customer.find_or_create_by(name: params[:customer_name])
+      @invoice.customer = customer
+      @invoice.save!
+
       Item.all.each do |item|
         if params["amount_#{item.id}"].to_i > 0
           InvoiceDetail.create!(invoice: @invoice, item: item, price: item.price,
@@ -41,8 +45,6 @@ class InvoicesController < ApplicationController
         end
       end
     end
-
-    # @invoice = Invoice.new(invoice_params)
 
     respond_to do |format|
       if @invoice.calculate_total!
@@ -59,6 +61,7 @@ class InvoicesController < ApplicationController
   # PATCH/PUT /invoices/1.json
   def update
     ActiveRecord::Base.transaction do
+      @invoice.update invoice_params
       @invoice.invoice_details.destroy_all
       Item.all.each do |item|
         if params["amount_#{item.id}"].to_i > 0
@@ -107,6 +110,6 @@ class InvoicesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def invoice_params
-      params.permit(:email, :total, :delivered)
+      params.permit(:deliver_address, :contactor, :contact_phone)
     end
 end

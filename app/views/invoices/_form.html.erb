@@ -1,5 +1,14 @@
-<h3>商品</h3>
+<h3>訂單資料</h3>
 <%= bootstrap_form_tag url: @form_option[:url], method: @form_option[:method] do |f| %>
+  <%= label_tag 'customer_name', "訂購人" %>
+  <%= f.text_field "customer_name", { hide_label: true, value: @invoice.customer ? @invoice.customer.name : '' }%>
+  <%= label_tag "deliver_address", '寄送地址' %>
+  <%= f.text_field "deliver_address", { hide_label: true, value: @invoice.deliver_address } %>
+  <%= label_tag "contactor", '聯絡人' %>
+  <%= f.text_field "contactor", { hide_label: true, value: @invoice.contactor } %>
+  <%= label_tag "contact_phone", '聯絡電話' %>
+  <%= f.phone_field "contact_phone", { hide_label: true, value: @invoice.contact_phone } %>
+  <hr>
   <table class="table">
     <thead>
       <tr>
@@ -28,45 +37,3 @@
   </table>
   <%= f.submit %>
 <% end %>
-
-<script>
-  function calculateTotal(){
-    $total = 0;
-    $.each($(".detail_total"), function(index, value){
-      $total += Number($(value).text());
-    });
-    $("#total").html("<b>$ " + $total + "</b>");
-  }
-
-  $( ".amount" ).change(function() {
-    $price = Number($(this).prev().text());
-    $amount = Number($(this).children().children().last().val());
-    $(this).next().html($price * $amount);
-
-    calculateTotal();
-
-    if($amount > 0){
-      $(this).parent().css("background-color", "#87CEFA");
-    }else{
-      $(this).parent().css("background-color", "white");
-    }
-  });
-
-  $( document ).ready(function() {
-      $.get("/invoice_details/<%= @invoice.id %>.json", function(data, status){
-        // alert("Data: " + data + "\nStatus: " + status);
-        $.each(data,function(index, value){
-          $id = value.item_id;
-          if(value.amount > 0){
-            $('#amount_' + $id).val(value.amount);
-            $('#amount_' + $id).parent().parent().parent().css("background-color", "#87CEFA");
-            $('#total_' + $id).text(value.amount * value.price);
-            $('#amount_' + $id).parent().parent().prev().text(value.price);
-          }
-        });
-
-        calculateTotal();
-      });
-
-  });
-</script>

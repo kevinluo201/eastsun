@@ -2,3 +2,7 @@
 @import "bootstrap-sprockets";
 @import "bootstrap";
 @import "rails_bootstrap_forms";
+
+.form-control {
+  width: 30%;
+}
