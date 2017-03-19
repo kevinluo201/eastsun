@@ -38,3 +38,27 @@
   </table>
   <%= f.submit %>
 <% end %>
+
+<script>
+  function calculateTotal(){
+    $total = 0;
+    $.each($(".detail_total"), function(index, value){
+      $total += Number($(value).text());
+    });
+    $("#total").html("<b>$ " + $total + "</b>");
+  }
+
+  $( ".amount" ).change(function() {
+    $price = Number($(this).prev().text());
+    $amount = Number($(this).children().children().last().val());
+    $(this).next().html($price * $amount);
+
+    calculateTotal();
+
+    if($amount > 0){
+      $(this).parent().css("background-color", "#87CEFA");
+    }else{
+      $(this).parent().css("background-color", "white");
+    }
+  });
+</script>

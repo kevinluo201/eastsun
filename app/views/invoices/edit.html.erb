@@ -13,28 +13,6 @@
 <%= render 'form' %>
 
 <script>
-  function calculateTotal(){
-    $total = 0;
-    $.each($(".detail_total"), function(index, value){
-      $total += Number($(value).text());
-    });
-    $("#total").html("<b>$ " + $total + "</b>");
-  }
-
-  $( ".amount" ).change(function() {
-    $price = Number($(this).prev().text());
-    $amount = Number($(this).children().children().last().val());
-    $(this).next().html($price * $amount);
-
-    calculateTotal();
-
-    if($amount > 0){
-      $(this).parent().css("background-color", "#87CEFA");
-    }else{
-      $(this).parent().css("background-color", "white");
-    }
-  });
-
   $( document ).ready(function() {
       $.get("/invoice_details/<%= @invoice.id %>.json", function(data, status){
         // alert("Data: " + data + "\nStatus: " + status);
