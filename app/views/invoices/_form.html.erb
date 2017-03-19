@@ -8,6 +8,7 @@
   <%= f.text_field "contactor", { hide_label: true, value: @invoice.contactor } %>
   <%= label_tag "contact_phone", '聯絡電話' %>
   <%= f.phone_field "contact_phone", { hide_label: true, value: @invoice.contact_phone } %>
+  <%= f.check_box :delivered, value: @invoice.delivered, checked: @invoice.delivered, label: "已送貨？" %>
   <hr>
   <table class="table">
     <thead>

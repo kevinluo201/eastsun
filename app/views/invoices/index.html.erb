@@ -1,9 +1,9 @@
 <div class="page-header">
   <%= link_to new_invoice_path, class: 'btn btn-primary' do %>
     <span class="glyphicon glyphicon-plus"></span>
-    New Invoice
+    新訂單
   <% end %>
-  <h1>Listing invoices</h1>
+  <h1>訂單清單</h1>
 </div>
 
 <div class="table-responsive">
@@ -11,8 +11,9 @@
     <thead>
       <tr>
         <th>ID</th>
-        <th>Total</th>
-        <th>Delivered</th>
+        <th>訂購人</th>
+        <th>總價</th>
+        <th>已送貨？</th>
         <th></th>
         <th></th>
         <th></th>
@@ -22,8 +23,15 @@
     <tbody>
       <%= content_tag_for(:tr, @invoices) do |invoice| %>
         <td><%= invoice.id %></td>
+        <td><%= invoice.customer.name %></td>
         <td>$ <%= invoice.total %></td>
-        <td><%= invoice.delivered %></td>
+        <td>
+          <% if invoice.delivered? %>
+            <span class="glyphicon glyphicon-ok green" aria-hidden="true"></span>
+          <% else %>
+            <span class="glyphicon glyphicon-remove red" aria-hidden="true"></span>
+          <% end %>
+        </td>
         <td><%= link_to 'Show', invoice %></td>
         <td><%= link_to 'Edit', edit_invoice_path(invoice) %></td>
         <td><%= link_to 'Destroy', invoice, method: :delete, data: { confirm: 'Are you sure?' } %></td>

@@ -110,6 +110,6 @@ class InvoicesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def invoice_params
-      params.permit(:deliver_address, :contactor, :contact_phone)
+      params.permit(:deliver_address, :contactor, :contact_phone, :delivered)
     end
 end
