@@ -2,7 +2,8 @@
   <%= f.error_notification %>
 
   <div class="form-inputs">
-    <%= f.association :item %>
+    <%= f.input :item_id, input_html: { value: @purchase.item.id, readonly: true}  %>
+    <h5><%= @purchase.item.name %></h5>
     <%= f.input :price %>
     <%= f.input :amount %>
     <%= f.input :date %>

@@ -4,7 +4,7 @@ class PurchasesController < ApplicationController
   # GET /purchases
   # GET /purchases.json
   def index
-    @purchases = Purchase.all
+    @purchases = Purchase.all.sort { |a, b| b.date <=> a.date }
   end
 
   # GET /purchases/1
@@ -14,7 +14,8 @@ class PurchasesController < ApplicationController
 
   # GET /purchases/new
   def new
-    @purchase = Purchase.new
+    @item = Item.find(params[:item_id])
+    @purchase = Purchase.new(item: @item)
   end
 
   # GET /purchases/1/edit
