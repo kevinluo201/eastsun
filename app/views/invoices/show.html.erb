@@ -1,20 +1,62 @@
 <div class="page-header">
   <%= link_to invoices_path, class: 'btn btn-default' do %>
     <span class="glyphicon glyphicon-list-alt"></span>
-    Back
+    返回
   <% end %>
   <%= link_to edit_invoice_path(@invoice), class: 'btn btn-primary' do %>
     <span class="glyphicon glyphicon-pencil"></span>
-    Edit
+    編輯訂單
   <% end %>
-  <h1>Show invoice</h1>
+  <h1>訂單資料</h1>
 </div>
 
 <dl class="dl-horizontal">
-  <dt>Total:</dt>
-  <dd><%= @invoice.total %></dd>
+  <dt>訂購人：</dt>
+  <dd>$ <%= @invoice.customer.name %></dd>
 
-  <dt>Delivered:</dt>
-  <dd><%= @invoice.delivered %></dd>
+  <dt>送貨地址</dt>
+  <dd><%= @invoice.deliver_address %></dd>
 
+  <dt>聯絡人</dt>
+  <dd><%= @invoice.contactor %></dd>
+
+  <dt>聯絡人電話</dt>
+  <dd><%= @invoice.contact_phone %></dd>
+
+  <dt>總計:</dt>
+  <dd>$ <%= @invoice.total %></dd>
+
+  <dt>已送貨？:</dt>
+  <dd>
+    <% if @invoice.delivered? %>
+      <span class="glyphicon glyphicon-ok green" aria-hidden="true"></span>
+    <% else %>
+      <span class="glyphicon glyphicon-remove red" aria-hidden="true"></span>
+    <% end %>
+  </dd>
+
+  <dt>明細</dt>
+  <dd>
+   <table class="table">
+    <thead>
+      <tr>
+        <th>品項</th>
+        <th>單價</th>
+        <th>數量</th>
+        <th>複價</th>
+      </tr>
+    </thead>
+    <tbody>
+    <% @invoice.invoice_details.each do |detail| %>
+      <% next if detail.amount == 0 %>
+      <tr>
+        <td><%= detail.item.name %></td>
+        <td><%= detail.price %></td>
+        <td><%= detail.amount %></td>
+        <td><%= detail.total %></td>
+      </tr>
+    <% end %>
+    </tbody>
+  </table>
+  </dd>
 </dl>
