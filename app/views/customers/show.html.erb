@@ -1,0 +1,26 @@
+<div class="page-header">
+  <%= link_to customers_path, class: 'btn btn-default' do %>
+    <span class="glyphicon glyphicon-list-alt"></span>
+    返回
+  <% end %>
+  <%= link_to edit_customer_path(@customer), class: 'btn btn-primary' do %>
+    <span class="glyphicon glyphicon-pencil"></span>
+    編輯資料
+  <% end %>
+  <h1>Show customer</h1>
+</div>
+
+<dl class="dl-horizontal">
+  <dt>客戶名:</dt>
+  <dd><%= @customer.name %></dd>
+
+  <dt>電話:</dt>
+  <dd><%= @customer.phone %></dd>
+
+  <dt>地址:</dt>
+  <dd><%= @customer.address %></dd>
+
+  <dt>Email:</dt>
+  <dd><%= @customer.email %></dd>
+
+</dl>
