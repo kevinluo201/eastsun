@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  root to: 'invoices#index'
+  root to: 'reports#index'
 
   resources :invoices
   resources :purchases
